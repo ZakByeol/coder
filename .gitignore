@@ -305,3 +305,6 @@ __pycache__/
 .bash_logout
 .bashrc
 .profile
+Help.txt
+test/
+.wget-hsts
