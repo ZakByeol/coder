@@ -1,6 +1,19 @@
 {
     "files.associations": {
         "func.h": "c",
-        "compare": "c"
+        "compare": "c",
+        "algorithm": "c",
+        "array": "c",
+        "*.tcc": "c",
+        "string": "c",
+        "unordered_map": "c",
+        "memory": "c",
+        "string_view": "c",
+        "istream": "c",
+        "ostream": "c",
+        "sstream": "c",
+        "streambuf": "c",
+        "functional": "c",
+        "tuple": "c"
     }
 }

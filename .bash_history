@@ -38,3 +38,6 @@ sudo apt-get update
 sudo apt-get install build-essential gdb
 wget vscode:extension/ms-vscode.cpptools-extension-pack
 g++ -v
+cd "/home/coder/Baekjoon/Gold_Tier/BOJ1918_G2/" && gcc $(find . -name '*.c') -o main && "/home/coder/Baekjoon/Gold_Tier/BOJ1918_G2/"main
+cd "/home/coder/Baekjoon/Gold_Tier/BOJ1918_G2/" && gcc $(find . -name '*.c') -o Correct && "/home/coder/Baekjoon/Gold_Tier/BOJ1918_G2/"Correct
+cd "/home/coder/Baekjoon/Gold_Tier/BOJ23884_G4/" && gcc $(find . -name '*.c') -o main && "/home/coder/Baekjoon/Gold_Tier/BOJ23884_G4/"main
