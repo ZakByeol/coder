@@ -30,6 +30,7 @@ int main(void)
     // 인덱스 찾는 용으로 B배열을 오름차순 정렬해준다.
     qsort(B, NumElement, sizeof(int), compare);
 
+    // Mapping - 
     int *pos = malloc(NumElement * sizeof(int));
     for (int i = 0; i < NumElement; i++)
     {
@@ -37,10 +38,10 @@ int main(void)
         int *p = bsearch(&A[i], B, NumElement, sizeof(int), compare);
 
         // 현주소 - 첫주소 = 현 인덱스(원소 간 거리)
-        int ranCountChange = (int)(p - B);
+        int ValueIndex = (int)(p - B);
 
-        // B[ranCountChange]가 현재 A[i]에 있다를 의미함.
-        pos[ranCountChange] = i;
+        // Index : 해당 값이 위치하는 B 배열(정렬된)의 인덱스, Value : 해당 값이 위치하는 A 배열의 인덱스
+        pos[ValueIndex] = i;
     }
 
     int cnt = 0;
@@ -49,20 +50,20 @@ int main(void)
         int need = B[i];      // i에 있어야 하는 값
         int current = pos[i]; // i에 있어야 하는 값의 현재 인덱스
 
-        // 현 인덱스에 있어야 하는 값이 없는 경우
+        // 정렬이 되어 있지 않은 경우, current(pos[i]) == i 는 정렬이 되었다는 뜻이 됨
         if (current != i)
         {
             int x = A[i]; // 현재 값(i에 있던 값)
             int *px = bsearch(&x, B, NumElement, sizeof(int), compare);
-            int x_ranCountChange = (int)(px - B); // 현재 값이 있어야 하는 인덱스
+            int x_ValueIndex = (int)(px - B); // 현재 값이 정렬 후 위치해야할 인덱스
 
-            // 원소 갱신
+            // 원소 스왑
             A[current] = x;
             A[i] = need;
 
             // 위치 갱신. A[i]는 정렬되었고, A[current]가 원래 있던 값으로 바뀐다.
             pos[i] = i;            // 전부 pos[i] = i가 되면 정렬된 것이다.
-            pos[x_ranCountChange] = current; // B[x_ranCountChange]가 현재 A[current]에 있다.
+            pos[x_ValueIndex] = current; // B[x_ValueIndex]가 현재 A[current]에 있다.
 
             cnt++;
             if (cnt == CountChange)
