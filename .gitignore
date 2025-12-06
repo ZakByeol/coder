@@ -302,6 +302,7 @@ __pycache__/
 .config/
 .local/
 .visualizers/
+ThisIsAlgorithm-main/
 
 .bash_logout
 .bashrc
