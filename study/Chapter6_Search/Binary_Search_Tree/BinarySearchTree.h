@@ -6,7 +6,7 @@
 
 typedef int ElementType;
 
-typedef struct tagBSTNode 
+typedef struct tagBSTNode // BST에 사용될 노드 : LeftChild, RightChild를 가르키는 노드 포인터와 해당 노드에 할당된 데이터가 선언됨
 {
     struct tagBSTNode* Left;
     struct tagBSTNode* Right;

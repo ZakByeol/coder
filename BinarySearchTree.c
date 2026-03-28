@@ -39,6 +39,11 @@ void BST_DestroyTree(BSTNode* Tree)
     BST_DestroyNode(Tree);
 }
 
+
+
+
+
+
 BSTNode* BST_SearchNode(BSTNode* Tree, ElementType Target)
 {
     if (Tree == NULL)
