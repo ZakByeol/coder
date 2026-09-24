@@ -1,37 +1,49 @@
 #include "RBT_Header.h"
 
-extern RBTNode* NILL; // 전역 변수로 NIL 노드 선언
+RBTNode* NILL = NULL; // NIL 노드 정의 (선언은 RBT_Header.h의 extern)
 
-void RBT_RotateRight(RBTNode** root, RBTNode* parent) // root : 트리 전체의 루트 노드, parent : 회전할 노드
+// treeRoot : 트리 전체의 루트 변수의 주소, exisRoot : 회전으로 내려갈 노드 (왼쪽 자식이 올라옴)
+void RBT_RotateRight(RBTNode** treeRoot, RBTNode* exisRoot)
 {
-    if(parent == NILL || parent->left == NILL) // exception handling
-        return;
+    RBTNode* Grand_Node = exisRoot->parent;
+    RBTNode* newRoot = exisRoot->left;
+    RBTNode* PRST = newRoot->right;
 
-    // ⓐ RightSubTree, Root의 좌/우 위치 수정
-    RBTNode* RotationNode = parent->left; // 회전할 대상을 Root를 활용하여 지정
-    parent->left = RotationNode->right; // "RightSubTree"가 "Root"의 왼쪽 자식이 된다.
-    RotationNode->right = parent; // "Root"가 "RightSubTree"의 오른쪽 자식이 된다.
-    
+    // ⓐ GP와 newRoot간의 수정
+    // GP가 없으면 트리 루트 갱신, 있으면 exisRoot가 있던 자리에 newRoot 연결
+    if (Grand_Node == NILL) *treeRoot = newRoot;
+    else if (Grand_Node->right == exisRoot) Grand_Node->right = newRoot;
+    else Grand_Node->left = newRoot;
+    newRoot->parent = Grand_Node;
 
-    // ⓑ 노드를 교체하면서 생긴 수정소요 중, 부모 포인터에 관한 부분을 수정함
-    if (RotationNode->right != NILL) // RightSubTree의 부모 수정
-        RotationNode->right->parent = parent;
+    // ⓑ 우회전 필수 로직 - exisRoot와 newRoot의 이동 / newRoot의 RST(Right SubTree) 이동
+    exisRoot->parent = newRoot;
+    exisRoot->left = PRST;
+    if (PRST != NILL) PRST->parent = exisRoot;
 
-    RotationNode->parent = parent->parent; // 회전노드(RotationNode)의 부모 수정
-    parent->parent = RotationNode;
+    // ⓒ newRoot의 오른쪽 자식노드를 exisRoot로 초기화
+    newRoot->right = exisRoot;
+}
 
-    // ⓒ Parent노드의 부모노드's 좌/우 자식노드 포인터 수정
-    if (parent->parent == NULL)
-    {
-        *root = RotationNode; // 회전노드가 트리의 루트 노드가 된다.
-    }
-    else
-    {
-        if (parent == parent->parent->left) // Parent노드가 부모노드의 왼쪽 자식인 경우
-            parent->parent->left = RotationNode;
-        else // Parent노드가 부모노드의 오른쪽 자식인 경우
-            parent->parent->right = RotationNode;
-    }
-    
+// treeRoot : 트리 전체의 루트 변수의 주소, exisRoot : 회전으로 내려갈 노드 (오른쪽 자식이 올라옴)
+void RBT_RotateLeft(RBTNode** treeRoot, RBTNode* exisRoot)
+{
+    RBTNode* Grand_Node = exisRoot->parent;
+    RBTNode* newRoot = exisRoot->right;
+    RBTNode* PLST = newRoot->left;
 
+    // ⓐ GP와 newRoot간의 수정
+    // GP가 없으면 트리 루트 갱신, 있으면 exisRoot가 있던 자리에 newRoot 연결
+    if (Grand_Node == NILL) *treeRoot = newRoot;
+    else if (Grand_Node->right == exisRoot) Grand_Node->right = newRoot;
+    else Grand_Node->left = newRoot;
+    newRoot->parent = Grand_Node;
+
+    // ⓑ 좌회전 필수 로직 - exisRoot와 newRoot의 이동 / newRoot의 LST(Left SubTree) 이동
+    exisRoot->parent = newRoot;
+    exisRoot->right = PLST;
+    if (PLST != NILL) PLST->parent = exisRoot;
+
+    // ⓒ newRoot의 왼쪽 자식노드를 exisRoot로 초기화
+    newRoot->left = exisRoot;
 }
