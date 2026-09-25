@@ -23,4 +23,9 @@ extern RBTNode* NILL; // 모든 파일이 공유하는 NIL 노드 (정의는 RBT
 void RBT_RotateRight(RBTNode** treeRoot, RBTNode* exisRoot);
 void RBT_RotateLeft(RBTNode** treeRoot, RBTNode* exisRoot);
 
+// 삽입 : InsertHelper(BST 위치 확립) -> RebuildAfterInsert(RB 규칙 복구)
+void RBT_InsertHelper(RBTNode** treeRoot, RBTNode* NewNode);
+void RBT_RebuildAfterInsert(RBTNode** treeRoot, RBTNode* NewNode);
+void RBT_InsertNode(RBTNode** treeRoot, RBTNode* NewNode);
+
 #endif
