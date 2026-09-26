@@ -48,6 +48,9 @@ void RBT_RotateLeft(RBTNode** treeRoot, RBTNode* exisRoot)
     newRoot->left = exisRoot;
 }
 
+// ____________구분선______________
+
+
 void RBT_InsertHelper(RBTNode** treeRoot, RBTNode* NewNode)
 {
     // 새로운 노드의 삽입될 위치를 BST를 통해 확립 및 삽입을 한다.

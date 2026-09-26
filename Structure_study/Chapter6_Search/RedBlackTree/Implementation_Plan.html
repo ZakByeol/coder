@@ -1,6 +1,6 @@
-Implementation Plan to RedBlack Tree.
+<Implementation Plan to RedBlack Tree.></Implementation>
 
-<회전함수(왼쪽 회전)
+<RedBlack-Tree Rotation Left Function Implementation></RedBlack-Tree>
 - 본래의 루트노드 Root, 루트노드가 될 노드 Parent가 주어짐
 1.  Parent의 부모 노드를 본래 Root의 부모노드(GP)로 초기화,
     GP의 자식노드를 Parent로 초기화
@@ -14,15 +14,14 @@ Implementation Plan to RedBlack Tree.
 3.  Parent의 왼쪽 자식노드를 Root 노드로 초기화
 
 - 여기서, Recoloring은 구현 안함
->
 
-<삽입함수
+<RedBlack-Tree Insert Node Function Implementation></RedBlack-Tree>
+
 새 노드를 빨간색으로 BST를 통해 삽입을 함.
 부모노드가 빨간색이면, 규칙을 위반하기 때문에 이 경우에는 3가지의 경우로 나뉘어 대처방법을 달리 한다.
 - 삽입, 새노드 컬러링,NILL연결, 대처(3방안)
->
 
-<대처방안
+★ 대처방안
 1 - 삽입노드의 삼촌노드가 빨간색 일때,
 
 빨간색 노드를 Recoloring 한다는 것은 해당 노드의 서브트리의 BlackHegiht를 1증가한다는 것 외에 아무 문제가 없다는 뜻 임으로, 해당 노드와 형제 관계인 노드를 전부 검은색으로 Recoloring 한다.
@@ -38,4 +37,36 @@ P노드와 N노드를 좌회전하여 2번 케이스와 같은 배치 상태를 
 전에 주어진 케이스의 경우, P의 색상을 검은색으로(빨간색 노드의 규칙 준수하기 위해), G의 색상을 빨간색으로(P의 Recoloring/회전으로 인한 G 아래의 불균형) Recoloring한다.
 이후, 우회전한다.
 
+<RedBlack-Tree Delete Node Function Implementation></RedBlack-Tree>
+
+* 삭제노드가 부모노드의 왼쪽 자식인 경우, 오른쪽 자식이면 방향을 반대로만 해준다.
+1. Basic logics
+
+"이중흑색노드 위치" 변수를 NULL로 선언,
+삭제 노드(D)를 삭제하고 D의 부모노드(P)와 자식노드(C)를 양방향 연결해준다. (자식이 2개라면, C의 서브트리의 오른쪽 자식들을 잎 노드부터 D까지 하나씩 P위치로 승격한다.)
+올라온 C노드가 BLACK이라면 "이중흑색노드 위치" 변수를 해당 C노드로 초기화시키고 아래의 2. Handle 4 Case으로 이행한다.
+올라온 C노드가 RED이라면 BLACK으로 Recoloring한다.
+
+2. Handle 4 Case
+
+________________루프____________________
+
+ⓐ D의 형제(S)가 RED인 경우
+기본 로직을 이행 후, 해당 조건 충족시,
+S를 BLACK, P를 RED로 Recoloring한다. P를 기준으로 좌회전을하여 이 3가지의 과정을 통해 ⓑ-1 의 상태로 전환하여 해당 Case로 처리한다.
+
+ⓑ S가 BLACK인 경우
+ⓑ-1 S의 양쪽 자식이 모두 검은색인 경우
+이중흑색노드를 없애기 위해서, 해당 "이중흑색노드 위치" 변수를 P로 초기화시키고, S를 RED으로 Recoloring한다 (BH맞추기)
+해당 P가 RED이면, BLACK으로 Recoloring을 한 후, "이중흑색노드 위치" 변수를 NULL로 초기화한다. (RED이면, BLACK으로 색을 칠해도 상관 없음 : 이중흑색노드도 BH에 이미 집계된 상태이기 때문)
+해당 P가 BLACK이면, P를 이중흑색노드로 지정 후 조건에 맞춰 루프한다.
+
+ⓑ-2 S의 왼쪽 자식은 RED, 오른쪽 자식은 BLACK인 경우
+기본 로직을 이행 후, 해당 조건 충족시,
+S를 RED로, S의 왼쪽자식(LC)를 BLACK으로 Recoloring한 후, S기준 우회전을 한다. (ⓐ와 마찬가지로 ⓑ-3으로 전환해서 해당 방식으로 처리하기 위함)
+
+ⓑ-3 S의 오른쪽 자식(RC)이 RED인 경우
+곧 P가 뿌리인 서브트리에서 뿌리가 될 S에 P의 색으로 Recoloring 한다. (서브트리의 루트노드 색을 바꾸지 않게 하기 위함임)
+P와 RC를 BLACK으로 Recoloring한다. (P가 속한 전체 뿌리노드의 서브트리의 반대편의 서브트리의 Black Height 크기보다 P가 속한 서브트리가 +1 가 되기 위함임)
+P를 기준으로 좌회전 후, "이중흑색노드 위치" 변수를 NULL로 초기화한다.
 >
